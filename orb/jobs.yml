@@ -1,0 +1,24 @@
+jobs:
+  docker_build_and_push:
+    parameters:
+      config_file:
+        description: "The location of the rok8s-scripts config file."
+        type: string
+        default: deploy/build.config
+    executor: ci-images
+    steps:
+      - checkout
+      - setup_remote_docker
+      - set_env
+      - docker_build:
+          config: <<parameters.config_file>>
+      - docker_push:
+          config: <<parameters.config_file>>
+executors:
+  ci-images:
+    parameters:
+      version:
+        type: string
+        default: "v8.0-stretch"
+    docker:
+      - image: quay.io/reactiveops/ci-images:<<parameters.version>>
