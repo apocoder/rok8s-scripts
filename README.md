@@ -45,6 +45,10 @@ You are okay with your pipeline breaking occasionally and having to upgrade thin
 
 In this case, go ahead and pin to a major version such as `v8-alpine`
 
+## Orbs
+
+CircleCI has introduced the concept of reusable config in the form of [Orbs](https://circleci.com/orbs/).  ReactiveOps publishes an orb called `reactiveops/rok8s-scripts` in order to provide easier configuration inside of CircleCI.
+
 ## Further Reading
 
 - [Building and Pushing Docker Images](/docs/docker.md)

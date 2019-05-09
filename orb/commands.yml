@@ -7,13 +7,29 @@ commands:
           echo 'export CI_BRANCH=$CIRCLE_BRANCH' >> ${BASH_ENV}
           echo 'export CI_BUILD_NUM=$CIRCLE_BUILD_NUM' >> ${BASH_ENV}
           echo 'export CI_TAG=$CIRCLE_TAG' >> ${BASH_ENV}
-
+  docker_login:
+    description: Log into a docker repo
+    parameters:
+      registry:
+        type: string
+        description: The name of the docker registry.
+        default: "quay.io"
+      username:
+        type: string
+        description: The username to use for the registry.
+      password-variable:
+        type: string
+        description: The environment variable name containing the password.
+    steps:
+      - run: |
+          docker login -u="<<parameters.username>>" -p="$<<parameters.password-variable>>" <<parameters.registry>>
   docker_push:
     description: Pushes a docker image using rok8s-scripts
     parameters:
       config:
         type: string
         description: The location of the rok8s-scripts config file
+        default: "deploy/build.config"
     steps:
       - run: |
           docker-push -f << parameters.config >>
@@ -24,6 +40,7 @@ commands:
       config:
         type: string
         description: The location of the rok8s-scripts config file
+        default: "deploy/build.config"
     steps:
       - setup_remote_docker
       - run: |
